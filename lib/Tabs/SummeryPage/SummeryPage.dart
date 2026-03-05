@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sds_assistor/Tabs/SummeryPage/Body.dart';
 import 'package:sds_assistor/custom_widgets/Butt_1.dart';
 
-import '../Pdf_Ai_Logics/Pdf_to_Text.dart';
-import '../custom_widgets/Preview_PDF.dart';
-import 'DataEntryPage.dart';
+import '../../Pdf_Ai_Logics/Pdf_to_Text.dart';
+import '../../custom_widgets/Preview_PDF.dart';
+import '../DataEntryPage.dart';
 
 class Summerypage extends StatefulWidget {
   const Summerypage({super.key});
@@ -47,20 +48,5 @@ class _SummerypageState extends State<Summerypage> {
       );
 
     }
-  }
-}
-
-
-class Body extends StatefulWidget {
-  const Body({super.key});
-
-  @override
-  State<Body> createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

@@ -8,6 +8,10 @@ import 'package:sds_assistor/custom_widgets/Butt_1.dart';
 bool Data=false;
 String path='';
 Map<String, Uint8List> File = {};
+String chemName='';
+String description='';
+
+
 
 
 class DataEntryPage extends StatefulWidget {
@@ -93,10 +97,13 @@ Widget Info(double size,BuildContext context){
 }
 
 
+
 void showCustomDialog(BuildContext context) {
   final _formKey=GlobalKey<FormState>();
   final TextEditingController controller=TextEditingController();
   final TextEditingController controller2=TextEditingController();
+  final TextEditingController controller3=TextEditingController();
+  final TextEditingController controller4=TextEditingController();
   controller2.text='Optional';
 
   showDialog(
@@ -114,9 +121,12 @@ void showCustomDialog(BuildContext context) {
               Form(key: _formKey,child: Column(
                 children: [
                   TextFormField(
+                   controller: controller3,
+
                     decoration: InputDecoration(
                       labelText: 'Enter Name of Chemical',
                       border: OutlineInputBorder(),
+
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -124,6 +134,7 @@ void showCustomDialog(BuildContext context) {
                       }
                       return null;
                     }
+
                   ),
                   SizedBox(height: 10),
 
@@ -188,6 +199,7 @@ void showCustomDialog(BuildContext context) {
                   TextFormField(
                     autocorrect: true,
                       maxLines: 5,
+                      controller: controller4,
                       decoration: InputDecoration(
 
                         labelText: 'Enter a Brief job description',
@@ -197,6 +209,8 @@ void showCustomDialog(BuildContext context) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter job description';
                         }
+                        chemName=controller3.text;
+                        description=controller4.text;
                         return null;
                       }
                   ),
@@ -208,6 +222,7 @@ void showCustomDialog(BuildContext context) {
                       ElevatedButton(onPressed: (){
                       if(_formKey.currentState!.validate()){
                         Navigator.pop(context);
+
                         Data=true;
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Data Uploaded Successfully'))

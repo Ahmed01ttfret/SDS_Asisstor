@@ -37,6 +37,8 @@ dependencies:
   file_picker: ^10.3.10
   pdfrx: ^2.2.24
   syncfusion_flutter_pdf: ^21.1.35
+  http: ^1.2.0
+  flutter_dotenv: ^6.0.0
 
 
 
@@ -66,6 +68,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/logo1.png
+     - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

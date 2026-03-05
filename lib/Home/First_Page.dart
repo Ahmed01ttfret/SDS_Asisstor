@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:sds_assistor/Tabs/CheckListPage.dart';
 import 'package:sds_assistor/Tabs/DataEntryPage.dart';
-import 'package:sds_assistor/Tabs/SummeryPage.dart';
+import 'package:sds_assistor/Tabs/SummeryPage/SummeryPage.dart';
 import 'package:sds_assistor/custom_widgets/Butt_1.dart';
 
 
