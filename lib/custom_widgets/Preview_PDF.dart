@@ -1,7 +1,7 @@
 
 
 
-import 'dart:typed_data';
+
 
 import 'package:pdfrx/pdfrx.dart';
 
@@ -85,5 +85,17 @@ Widget SDS(){
 }
 
 Widget Emergency(){
+  if(File.length==1){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.error_outline_rounded,color: Colors.red,size: 60,),
+        SizedBox(height: 10,),
+        Text('No Emergency Response Procedure Provided')
+
+      ],
+    );
+  }
   return PdfViewer.data(File['emergency']!, sourceName: 'emergency.pdf');
+
 }

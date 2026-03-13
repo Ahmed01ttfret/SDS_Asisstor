@@ -3,13 +3,17 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:sds_assistor/Pdf_Ai_Logics/AIData.dart';
 import 'package:sds_assistor/custom_widgets/Butt_1.dart';
+
+import '../Pdf_Ai_Logics/Pdf_to_Text.dart';
 
 bool Data=false;
 String path='';
 Map<String, Uint8List> File = {};
 String chemName='';
 String description='';
+String text='';
 
 
 
@@ -219,14 +223,17 @@ void showCustomDialog(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(onPressed: (){
+                      ElevatedButton(onPressed: ()async{
                       if(_formKey.currentState!.validate()){
                         Navigator.pop(context);
 
                         Data=true;
+                        text=await extractTextFromBytes(File['sds']!);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Data Uploaded Successfully'))
                         );
+                        data.value={};
+                        check_if_sds();
                       }
                       }, child: Text('Proceed')),
                       SizedBox(width: 10,),

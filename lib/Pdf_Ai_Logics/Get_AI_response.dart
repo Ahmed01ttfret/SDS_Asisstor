@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sds_assistor/Pdf_Ai_Logics/PiecewisingText.dart';
 
 class AiService {
   final String endpoint;
   final String token;
   final String model;
 
-  final List<Map<String, String>> _messages = [];
+  List<Map<String, String>> _messages = [];
 
   AiService({
     required this.endpoint,
@@ -22,13 +23,13 @@ class AiService {
   }
 
   Future<String> sendMessage(String userMessage) async {
+
     // Add user message to memory
-    _messages.add({
-      "role": "user",
-      "content": userMessage,
-    });
+    _messages=_messages+[Chunks(userMessage)[0]];
 
     final url = Uri.parse('$endpoint/chat/completions');
+
+
 
     final response = await http.post(
       url,
