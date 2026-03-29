@@ -1,0 +1,87 @@
+# About This App
+
+**SDS Intelligent Assistant** is a prototype safety-support application designed to make chemical safety information easier to understand and apply in real-world situations. Built using **Flutter Web**, the system helps transform complex **Safety Data Sheets (SDS)** into clear, practical guidance that workers and supervisors can use with confidence.
+
+---
+
+## Why This App Exists
+
+Safety Data Sheets often contain critical information, but their technical language can make them difficult to interpret quickly. This app addresses that challenge by analyzing uploaded SDS documents and extracting essential safety details such as:
+
+- Hazard warnings
+- Required Personal Protective Equipment (**PPE**)
+- Safe storage conditions
+- First aid measures
+- Spill response actions
+- Proper disposal instructions
+
+The extracted information is presented in a **simple, structured format** that promotes faster understanding and improved safety awareness.
+
+---
+
+## Core Features
+
+### Dynamic Safety Checklist Generator
+
+A key feature of the system is its **dynamic safety checklist generator**. After processing an SDS, the assistant automatically creates a customized checklist tailored to the specific chemical involved.
+
+These checklists help users prepare before starting work by highlighting:
+
+- PPE requirements
+- Handling procedures
+- Emergency readiness steps
+- Inspection items
+- Communication requirements
+- Visitor safety considerations
+- Environmental protection measures
+
+This approach encourages **proactive safety behavior** rather than reactive responses.
+
+---
+
+### "Proceed with Work" Safety Evaluation
+
+The app includes a **"Proceed with Work" safety evaluation tool**, which helps users determine whether essential safety conditions are in place.
+
+By reviewing checklist completion and critical hazard requirements, the system:
+
+- Provides a clear readiness indication
+- Highlights missing safety measures
+- Encourages responsible decision-making
+- Helps reduce operational risks
+
+This feature supports safer planning **before work begins**, not after problems occur.
+
+---
+
+## Important Notice
+
+**SDS Intelligent Assistant is a decision-support tool, not a replacement for professional judgment or formal safety procedures.**
+
+Its goal is to:
+
+- Enhance safety awareness
+- Strengthen compliance practices
+- Support safer chemical handling
+- Improve workplace preparedness
+
+The system is intended for use in **workplaces, laboratories, and learning environments** where chemical safety is essential.
+
+---
+
+## Contributing
+
+Contributions are welcome! If you would like to improve this project, suggest features, or report issues, feel free to visit the GitHub repository:
+
+🔗 **GitHub Repository:**
+[<https://github.com/Ahmed01ttfret/SDS_Asisstor>](<https://github.com/Ahmed01ttfret/SDS_Asisstor>)
+
+You can contribute by:
+
+- Reporting bugs
+- Suggesting new features
+- Improving documentation
+- Enhancing safety logic
+- Optimizing performance
+
+Every contribution helps make chemical safety tools more accessible and effective.

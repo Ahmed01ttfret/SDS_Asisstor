@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_pdf: ^21.1.35
   http: ^1.2.0
   flutter_dotenv: ^6.0.0
+  gpt_markdown: ^1.1.5
 
 
 
@@ -69,6 +70,7 @@ flutter:
   assets:
      - assets/logo1.png
      - .env
+     - About.txt
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

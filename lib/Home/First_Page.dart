@@ -6,6 +6,8 @@ import 'package:sds_assistor/Tabs/DataEntryPage.dart';
 import 'package:sds_assistor/Tabs/SummeryPage/SummeryPage.dart';
 import 'package:sds_assistor/custom_widgets/Butt_1.dart';
 
+import 'AboutPage.dart';
+
 
 
 class Index extends StatefulWidget {
@@ -42,7 +44,11 @@ class _IndexState extends State<Index> {
               children: [
               Button1((){}, 'Documentations'),
               SizedBox(width: 20,),
-              Button1((){}, 'About'),
+              Button1((){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return Aboutpage();
+                }));
+              }, 'About'),
             ],)
           ],
         ),
@@ -64,7 +70,12 @@ class _IndexState extends State<Index> {
 
             Button1((){}, 'Documentations'),
             SizedBox(height: 20,),
-            Button1((){}, 'About')
+            Button1((){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return Aboutpage();
+              }));
+              }
+            , 'About')
 
           ],
         ),

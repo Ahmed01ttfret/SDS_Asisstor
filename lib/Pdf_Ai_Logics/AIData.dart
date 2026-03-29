@@ -29,18 +29,47 @@ ValueNotifier<Map<String, String>> data = ValueNotifier<Map<String, String>>({})
 void check_if_sds()async{
   data.value['checking']='Loading';
   final ai = AiService(
-    endpoint: "https://models.github.ai/inference",
-    token: dotenv.get('sds_key'),
-    model: "deepseek/DeepSeek-R1",
+
+    apiKey: dotenv.get('gemini'),
+      model: "gemini-3-flash-preview"
   );
 
 
   try {
-    data.value['checking']='Loading';
+
     final retured_tex = await ai.sendMessage(Validating_sds(chemName, text));
     data.value['checking']=retured_tex;
   } catch(e){
+    print(e);
     data.value['checking']='error';
 
   }
 }
+
+
+
+
+
+
+
+void Generate_Summery()async{
+  if(data.value['checking']!='Loading' || data.value['summery']!='error'){
+  data.value['summery']='Loading';
+  final ai = AiService(
+
+      apiKey: dotenv.get('gemini'),
+      model: "gemini-3-flash-preview"
+  );
+
+
+  try {
+
+    final retured_tex = await ai.sendMessage(Summery_propt(text));
+    data.value['summery']=retured_tex;
+  } catch(e){
+    print(e);
+    data.value['summery']='error';
+
+  }}
+}
+
