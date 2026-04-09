@@ -1,8 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:sds_assistor/Tabs/Checklistpage/Body.dart';
 
-import 'DataEntryPage.dart';
+import '../DataEntryPage.dart';
 
 class Checklistpage extends StatefulWidget {
   const Checklistpage({super.key});
@@ -15,7 +16,7 @@ class _ChecklistpageState extends State<Checklistpage> {
   @override
   Widget build(BuildContext context) {
     if(Data){
-      return Column();
+      return Body();
     }else{
       return Center(
         child: Column(

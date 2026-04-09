@@ -1,78 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:sds_assistor/Pdf_Ai_Logics/PiecewisingText.dart';
-//
-// class AiService {
-//   final String endpoint;
-//   final String token;
-//   final String model;
-//
-//   List<Map<String, String>> _messages = [];
-//
-//   AiService({
-//     required this.endpoint,
-//     required this.token,
-//     required this.model,
-//   }) {
-//     // Optional: Add a system instruction once
-//     _messages.add({
-//       "role": "system",
-//       "content":
-//       "You are an SDS (Safety Data Sheet) assistant specialized in chemical and environmental safety. Analyze and summarize safety documents with technical accuracy. Highlight hazards, risk levels, exposure controls, PPE requirements, emergency response measures, storage conditions, and environmental impacts. Prioritize clarity, compliance, and safety-critical information."
-//     });
-//   }
-//
-//   Future<String> sendMessage(String userMessage) async {
-//
-//     // Add user message to memory
-//     _messages.add({
-//       "role": "user",
-//       "content": userMessage,
-//     });
-//
-//
-//     final url = Uri.parse('$endpoint/chat/completions');
-//
-//
-//
-//     final response = await http.post(
-//       url,
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': 'Bearer $token',
-//       },
-//       body: jsonEncode({
-//         "model": model,
-//         "messages": _messages,
-//         "max_tokens": 800
-//       }),
-//     );
-//
-//     if (response.statusCode != 200) {
-//       throw Exception(
-//           "AI request failed: ${response.statusCode} ${response.body}");
-//     }
-//
-//     final data = jsonDecode(response.body);
-//     final aiReply = data['choices'][0]['message']['content'];
-//
-//     // Store assistant reply in memory
-//     _messages.add({
-//       "role": "assistant",
-//       "content": aiReply,
-//     });
-//
-//     return aiReply;
-//   }
-//
-//
-//
-//
-//   void clearMemory() {
-//     _messages.clear();
-//   }
-//}
-
 
 
 
@@ -83,81 +14,113 @@ class AiService {
   final String apiKey;
   final String model;
 
-  List<Map<String, String>> _messages = [];
+  AiService({required this.apiKey, required this.model});
 
-  AiService({
-    required this.apiKey,
-    required this.model,
-  }) {
-    // System instruction (we'll prepend it manually)
-    _messages.add({
-      "role": "system",
-      "content":
-      "You are an SDS (Safety Data Sheet) assistant specialized in chemical and environmental safety. Analyze and summarize safety documents with technical accuracy. Highlight hazards, risk levels, exposure controls, PPE requirements, emergency response measures, storage conditions, and environmental impacts. Prioritize clarity, compliance, and safety-critical information."
-    });
+  /// --- Upload a byte array as a file ---
+  /// Returns a map with fileUri, fileName, mimeType
+  Future<Map<String, String>?> uploadFile({
+    required Uint8List bytes,
+    required String fileName,
+    String mimeType = "application/pdf",
+  }) async {
+    try {
+      var uploadUri = Uri.parse(
+        "https://generativelanguage.googleapis.com/upload/v1beta/files?key=$apiKey",
+      );
+
+      var request = http.MultipartRequest("POST", uploadUri);
+
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          "file",
+          bytes,
+          filename: fileName,
+          contentType: MediaType.parse(mimeType),
+        ),
+      );
+
+      var response = await request.send();
+
+      if (response.statusCode != 200) {
+        print("Upload failed: ${response.statusCode}");
+        return null;
+      }
+
+      var respStr = await response.stream.bytesToString();
+      var jsonResp = json.decode(respStr);
+
+      return {
+        "fileUri": jsonResp["file"]["uri"],
+        "fileName": jsonResp["file"]["name"],
+        "mimeType": jsonResp["file"]["mimeType"] ?? mimeType,
+      };
+    } catch (e) {
+      print("Error uploading file: $e");
+      return null;
+    }
   }
 
-  Future<String> sendMessage(String userMessage) async {
-    // Add user message
-    _messages.add({
-      "role": "user",
-      "content": userMessage,
-    });
+  /// --- Ask Gemini about an uploaded file ---
+  /// Pass the file info returned from uploadFile
+  Future<String?> askAboutFile({
+    required String fileUri,
+    required String mimeType,
+    required String prompt,
+  }) async {
+    try {
+      var generateUri = Uri.parse(
+        "https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey",
+      );
 
-    final url = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
-    );
-
-    // Convert messages → Gemini format
-    final contents = _messages.map((msg) {
-      return {
-        "parts": [
-          {"text": "${msg['role']!.toUpperCase()}: ${msg['content']}"}
+      var body = {
+        "contents": [
+          {
+            "parts": [
+              {"fileData": {"fileUri": fileUri, "mimeType": mimeType}},
+              {"text": prompt}
+            ]
+          }
         ]
       };
-    }).toList();
 
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        "contents": contents,
-        "generationConfig": {
-          "maxOutputTokens": 1200,
-        }
-      }),
-    );
+      var response = await http.post(
+        generateUri,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(body),
+      );
 
-    if (response.statusCode != 200) {
-      throw Exception(
-          "AI request failed: ${response.statusCode} ${response.body}");
+      if (response.statusCode != 200) {
+        print("Generation failed: ${response.body}");
+        return null;
+      }
+
+      var jsonResp = json.decode(response.body);
+
+      return jsonResp["candidates"]?[0]?["content"]?["parts"]?[0]?["text"];
+    } catch (e) {
+      print("Error generating content: $e");
+      return null;
     }
-
-    final data = jsonDecode(response.body);
-
-    final aiReply = data['candidates']?[0]?['content']?['parts']?[0]?['text'] ??
-        "No response";
-
-    // Store assistant reply
-    _messages.add({
-      "role": "assistant",
-      "content": aiReply,
-    });
-    print(aiReply);
-
-    return aiReply;
   }
 
-  void clearMemory() {
-    _messages.clear();
+  /// --- Delete an uploaded file ---
+  Future<bool> deleteFile({required String fileName}) async {
+    try {
+      var uri = Uri.parse(
+        "https://generativelanguage.googleapis.com/v1beta/files/$fileName?key=$apiKey",
+      );
 
-    // Re-add system instruction after clearing
-    _messages.add({
-      "role": "system",
-      "content":
-      "You are an SDS (Safety Data Sheet) assistant specialized in chemical and environmental safety. Analyze and summarize safety documents with technical accuracy. Highlight hazards, risk levels, exposure controls, PPE requirements, emergency response measures, storage conditions, and environmental impacts. Prioritize clarity, compliance, and safety-critical information."
-    });
+      var response = await http.delete(uri);
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print("Delete failed: ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      print("Error deleting file: $e");
+      return false;
+    }
   }
 }

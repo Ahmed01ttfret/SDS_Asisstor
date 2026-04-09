@@ -1,6 +1,6 @@
 
 
-String Validating_sds(String chemName, String SDS){
+String Validating_sds(String chemName){
   return """
   
   You are an SDS (Safety Data Sheet) verification assistant.
@@ -24,7 +24,7 @@ Return your response in the following structured JSON format:
 
 Chemical Name: $chemName
 
-Document Text: {$SDS }
+
   
   
   
@@ -35,7 +35,7 @@ Document Text: {$SDS }
 
 
 
-String Summery_propt(String sds){
+String Summery_propt(){
 
   return """
         You are an SDS (Safety Data Sheet) summarization assistant.
@@ -95,7 +95,40 @@ Return your response in the following structured JSON format:
   "summary": "Brief overall safety and environmental summary in 2–3 sentences"
 }
 
-Document Text: {$sds}
+
         """;
 
+}
+
+
+
+
+String Hazard_action_prompt(String job_description) {
+  return """
+You are an SDS (Safety Data Sheet) hazard extraction assistant.
+
+Your task is to analyze the SDS and generate a list of **actionable safety items** for workers.  
+
+Instructions:
+
+1. Review all sections of the SDS carefully.
+2. For each hazard, produce an **actionable item** that a worker should follow to mitigate the risk.
+3. Assign a **priority** to each item based on the hazard severity:
+   - "high" → serious health, flammable, explosive, toxic, environmental hazards
+   - "medium" → moderate health or environmental risk, reversible harm
+   - "low" → minimal hazard, minor precautions
+4. Be as comprehensive as possible — include PPE, handling, storage, spill response, fire safety, emergency preparedness, ventilation, environmental protection, etc.
+5. Return your response as a JSON array, with each element structured exactly like this:
+
+[
+  {
+    "category": "Category name (e.g., PPE, Handling & Storage, Fire Safety)",
+    "action_item": "Clear, actionable safety instruction",
+    "priority": "high | medium | low"
+  }
+]
+
+Do not limit yourself to a fixed number of items — extract everything relevant from the SDS.
+here is the job description where the user is going to use this chemical {$job_description}
+""";
 }

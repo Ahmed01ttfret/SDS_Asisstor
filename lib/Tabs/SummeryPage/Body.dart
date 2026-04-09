@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
+import 'package:sds_assistor/Pdf_Ai_Logics/Map_to_markdown.dart';
 
 
 import '../../Pdf_Ai_Logics/AIData.dart';
@@ -81,7 +83,35 @@ class _BodyState extends State<Body> {
 
             }
             else{
-              return Text(value['summery']!);
+              try {
+
+                Map<String, dynamic>summery = extractJson(value['summery']!);
+
+
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        GptMarkdown(markDown(summery)),
+                        SizedBox(height: 10,),
+
+                      ],
+                    ),
+                  )
+                );
+              }catch(e){
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline_rounded,color: Colors.red,size: 60),
+                    SizedBox(height: 20,),
+                    Text('Something Went Wrong while reading json',style: TextStyle(color: Colors.red),),
+
+                  ]
+                );
+              }
             }
 
           }

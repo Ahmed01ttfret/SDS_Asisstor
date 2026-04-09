@@ -233,7 +233,9 @@ void showCustomDialog(BuildContext context) {
                           const SnackBar(content: Text('Data Uploaded Successfully'))
                         );
                         data.value={};
+
                         check_if_sds();
+
                       }
                       }, child: Text('Proceed')),
                       SizedBox(width: 10,),
