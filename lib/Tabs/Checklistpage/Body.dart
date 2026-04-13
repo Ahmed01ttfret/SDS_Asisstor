@@ -3,11 +3,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sds_assistor/Tabs/Checklistpage/Decision.dart';
 import 'package:sds_assistor/custom_widgets/Custom_Container.dart';
 
 import '../../Pdf_Ai_Logics/AIData.dart';
 
-Map<String,bool> validation_map={};
+ValueNotifier<Map<int, bool>> validation_map =ValueNotifier<Map<int, bool>>({});
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -16,9 +17,11 @@ class Body extends StatefulWidget {
   State<Body> createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyState extends State<Body> with AutomaticKeepAliveClientMixin{
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+
     return ValueListenableBuilder(
       valueListenable: data,
       builder: (context, value, child) {
@@ -72,19 +75,19 @@ class _BodyState extends State<Body> {
 
             return Column(
               children: [
-                Container(
-                  height: 70,
-                  width: double.infinity,
-                  color: Colors.blue,
-                  child: Text('Decision will be shown here'),
-                ),
+                Decision(),
                 SizedBox(height: 20,),
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: decodedData.length,
-                      itemBuilder: (context, index) => Custom_Container(decodedData[index]['category'], decodedData[index]['action_item'], decodedData[index]['priority'])),
+                      itemBuilder: (context, index){
+                      validation_map.value[index]=false;
+
+                      return CustomContainer(category: decodedData[index]['category'], actionItem: decodedData[index]['action_item'], priority: decodedData[index]['priority'], index: index);
+
+                      }),
                 )
 
               ],
@@ -109,3 +112,4 @@ class _BodyState extends State<Body> {
     );
   }
 }
+

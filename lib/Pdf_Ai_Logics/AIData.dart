@@ -113,6 +113,7 @@ void Generate_CheckList()async{
 
       String?retured_tex = await ai.askAboutFile(fileUri: info['fileUri']!, mimeType: info["mimeType"]!, prompt: Hazard_action_prompt(description));
       retured_tex==null?data.value['checklist']=='error':data.value['checklist']=retured_tex;
+      ai.deleteFile(fileName: info['fileName']!);
     } catch(e){
       print(e);
       data.value['checklist']='error';

@@ -3,60 +3,104 @@
 import 'package:flutter/material.dart';
 import 'package:sds_assistor/Tabs/Checklistpage/Body.dart';
 
-Widget Custom_Container(String category,String action_item,String priority){
 
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Container(
-      height: 150,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
-            spreadRadius: 2, // How much the shadow spreads
-            blurRadius: 6, // How blurry the shadow is
-            offset: Offset(0, 3), // Position of the shadow (x, y)
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text(category,style: TextStyle(fontWeight: FontWeight.bold),),
-                Spacer(),
-                Text(priority,style: TextStyle(color: priority=='high'?Colors.red:priority=='medium'?Colors.orange:Colors.green),)
-              ],
+
+class CustomContainer extends StatefulWidget {
+  final String category;
+  final String actionItem;
+  final String priority;
+  final int index;
+
+
+  const CustomContainer({
+    super.key,
+    required this.category,
+    required this.actionItem,
+    required this.priority,
+    required this.index,
+
+  });
+
+  @override
+  State<CustomContainer> createState() => _CustomContainerState();
+}
+
+class _CustomContainerState extends State<CustomContainer> {
+   @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 6,
+              offset: const Offset(0, 3),
             ),
-          ),
-          Expanded(
-            child: Padding(
+          ],
+        ),
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(action_item),
+              child: Row(
+                children: [
+                  Text(
+                    '${widget.index+1}. '+widget.category,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  Text(
+                    widget.priority,
+                    style: TextStyle(
+                      color: widget.priority == 'high'
+                          ? Colors.red
+                          : widget.priority == 'medium'
+                          ? Colors.orange
+                          : Colors.green,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Check the box once the above action has been completed',style: TextStyle(color: Colors.grey,fontSize: 12,),),
-                Checkbox(
-                  value: false, // a boolean variable
-                  onChanged: (bool? value) {
 
-                  },
-                )
-              ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.actionItem),
+              ),
             ),
-          )
-        ],
-      )
-    ),
-  );
 
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Check the box once the above action has been completed',
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                  Checkbox(
+                    value: validation_map.value[widget.index],
+                    onChanged: (value) {
+                      setState(() {
+                        validation_map.value[widget.index] = !validation_map.value[widget.index]!;
+
+
+                      });
+                    },
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
