@@ -1,0 +1,31 @@
+# SDS Assistor (Prototype)
+
+**SDS Assistor** is an AI-powered utility designed to transform complex Safety Data Sheets (SDS) into concise summaries and actionable safety checklists. By analyzing chemical properties and task descriptions, the app helps users prioritize safety measures in real-time.
+
+> ### ⚠️ Disclaimer: Professional Assistance Only
+> SDS Assistor is designed to **assist and empower** safety professionals by streamlining data extraction. It is **not** a replacement for the judgment, expertise, or mandatory oversight of qualified Health, Safety, and Environment (HSE) professionals. Always verify AI-generated outputs against official documentation.
+
+---
+
+## 📱 App Navigation
+The application features a simple three-tab interface:
+* **Home:** The starting point for all new safety queries.
+* **Summarize:** A high-level overview of chemical hazards with a **PDF Preview** of the original source.
+* **Checklist:** A dynamic safety checklist tailored specifically to your described task.
+
+## 🚀 How to Use
+1.  **Initiate:** Navigate to the **Home** tab and click the **Get Started** button.
+2.  **Input Data:** Fill out the form with the following:
+    * **SDS File:** Upload the PDF of the Safety Data Sheet.
+    * **Chemical Name:** Enter the substance name.
+    * **Task Description:** Describe the specific activity (e.g., "Cleaning engine parts in an enclosed space").
+    * **Emergency Response (Optional):** Add site-specific emergency details.
+3.  **Submit:** Press **Proceed** and watch the magic happen as the AI parses the data.
+
+## 🛠 Current Limitations & Roadmap
+* **Emergency Response Files:** Due to current technical hurdles regarding multi-file parsing, the optional Emergency Response file input is **not utilized** in this version. The AI currently extracts emergency protocols directly from the primary SDS PDF.
+* **Verification:** Users are encouraged to use the **Summarize** tab to cross-reference AI findings with the original document.
+
+---
+**Version:** Prototype 1.0
+**Build Date:** April 2026

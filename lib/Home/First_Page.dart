@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:sds_assistor/Home/Documentations.dart';
 import 'package:sds_assistor/Tabs/Checklistpage/CheckListPage.dart';
 import 'package:sds_assistor/Tabs/DataEntryPage.dart';
 import 'package:sds_assistor/Tabs/SummeryPage/SummeryPage.dart';
@@ -42,7 +43,11 @@ class _IndexState extends State<Index> {
             Row(
 
               children: [
-              Button1((){}, 'Documentations'),
+              Button1((){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return Documentations();
+                }));
+              }, 'Documentations'),
               SizedBox(width: 20,),
               Button1((){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -68,7 +73,11 @@ class _IndexState extends State<Index> {
               child: Image.asset('assets/logo1.png',width: 100,height: 100,),
             ),
 
-            Button1((){}, 'Documentations'),
+            Button1((){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return Documentations();
+              }));
+            }, 'Documentations'),
             SizedBox(height: 20,),
             Button1((){
               Navigator.push(context, MaterialPageRoute(builder: (context){

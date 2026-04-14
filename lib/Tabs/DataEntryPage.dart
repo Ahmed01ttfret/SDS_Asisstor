@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:sds_assistor/Pdf_Ai_Logics/AIData.dart';
 import 'package:sds_assistor/custom_widgets/Butt_1.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Pdf_Ai_Logics/Pdf_to_Text.dart';
 
@@ -84,7 +85,15 @@ Widget Info(double size,BuildContext context){
             showCustomDialog(context);
           }, 'Get Started'),
           SizedBox(width: 5,),
-          Button1((){}, 'Learn More')
+          Button1(()async{
+             final Uri url=Uri.parse('https://github.com/Ahmed01ttfret');
+
+          if(await launchUrl(url)){
+          throw Exception('Could not launch $url');}
+
+
+
+          }, 'Developer Portfolio')
         ],
       ):Column(
         children: [
@@ -93,7 +102,13 @@ Widget Info(double size,BuildContext context){
             showCustomDialog(context);
           }, 'Get Started'),
           Text(''),
-          Button1((){}, 'Learn More')
+          Button1(()async{
+            final Uri url=Uri.parse('https://github.com/Ahmed01ttfret');
+            if(await launchUrl(url)){
+              throw Exception('Could not launch $url');
+            }
+
+          }, 'Developer Portfolio')
         ],
       )
     ],
